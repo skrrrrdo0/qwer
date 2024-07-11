@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Maze Game</title>
+  <style>
+    .maze {
+      display: grid;
+      grid-template-columns: repeat(20, 1fr);
+      grid-template-rows: repeat(20, 1fr);
+      background-color: #eee;
+      width: 100vw;
+      height: 100vh;
+      box-sizing: border-box;
+    }
+    .cell {
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    .wall {
+      background-color: #333;
+    }
+    .special {
+      background-color: #00f;
+    }
+  </style>
+</head>
+<body>
+  <div class="maze" id="maze"></div>
+  <script>
+    const mazeArray = [
+      // 간단한 5x5 미로 배열 예제
+      [0, 1, 0, 0, 0],
+      [0, 0, 1, 1, 0],
+      [1, 0, 0, 1, 0],
+      [0, 1, 0, 0, 0],
+      [0, 0, 0, 1, 0]
+    ];
+
+    const mazeContainer = document.getElementById('maze');
+
+    // 미로를 그리는 함수
+    mazeArray.forEach((row, rowIndex) => {
+      row.forEach((cell, colIndex) => {
+        const div = document.createElement('div');
+        div.className = 'cell';
+        if (cell === 1) {
+          div.classList.add('wall');
+        }
+        // 특정 셀을 지정 (예: 2번째 행, 3번째 열)
+        if (rowIndex === 1 && colIndex === 3) {
+          div.classList.add('special');
+          div.dataset.special = 'true';
+        }
+        div.dataset.row = rowIndex;
+        div.dataset.col = colIndex;
+        mazeContainer.appendChild(div);
+      });
+    });
+
+    // 클릭 이벤트 핸들러
+    document.querySelectorAll('.cell').forEach(cell => {
+      cell.addEventListener('click', function() {
+        if (this.dataset.special) {
+          // 새로운 창을 띄우기
+          window.open('https://www.example.com', '_blank');
+        }
+      });
+    });
+
+    // 셀 크기 동적으로 조정
+    function resizeCells() {
+      const cells = document.querySelectorAll('.cell');
+      const cellSize = Math.min(window.innerWidth / 20, window.innerHeight / 20);
+      cells.forEach(cell => {
+        cell.style.width = `${cellSize}px`;
+        cell.style.height = `${cellSize}px`;
+      });
+    }
+
+    // 초기 셀 크기 조정 및 창 크기 변경 시 크기 조정
+    window.addEventListener('resize', resizeCells);
+    resizeCells();
+  </script>
+</body>
+</html>
