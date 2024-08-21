@@ -81,6 +81,21 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+      // 중력 센서로 공 제어하기
+    window.addEventListener('deviceorientation', (event) => {
+        const tiltX = event.beta;
+        const tiltY = event.gamma;
+
+        ballPosition.x += tiltY * speed * 0.1;
+        ballPosition.y += tiltX * speed * 0.1;
+
+        ballPosition.x = Math.max(0, Math.min(mazeContainer.clientWidth - ball.clientWidth, ballPosition.x));
+        ballPosition.y = Math.max(0, Math.min(mazeContainer.clientHeight - ball.clientHeight, ballPosition.y));
+
+        setBallPosition(ballPosition.x / 8, ballPosition.y / 8);
+    });
+
+  
   // 퀴즈를 보여주는 함수
   function showQuiz(trapId) {
     const quizContainer = document.getElementById('quiz-container');
