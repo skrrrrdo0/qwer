@@ -1,3 +1,13 @@
+if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
+    DeviceMotionEvent.requestPermission().then(response => {
+        if (response === 'granted') {
+            window.addEventListener('deviceorientation', handleOrientation);
+        }
+    }).catch(console.error);
+} else {
+    // 권한이 필요하지 않은 브라우저
+    window.addEventListener('deviceorientation', handleOrientation);
+} 
 document.addEventListener("DOMContentLoaded", () => {
   const mazeContainer = document.getElementById('maze');
   const ball = document.getElementById('ball');
